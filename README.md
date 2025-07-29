@@ -24,6 +24,12 @@ Ten skrypt Python (`ocs_reporter.py`) **automatycznie monitoruje i raportuje zmi
 
 -----
 
+## Używane biblioteki Pythona
+
+Skrypt wykorzystuje kilka standardowych i zewnętrznych bibliotek Pythona do realizacji swoich funkcji:
+
+    mysql.connector: Oficjalny sterownik MySQL/MariaDB dla Pythona, umożliwiający skryptowi łączenie się z bazą danych OCS Inventory NG i wykonywanie zapytań SQL.
+
 ## Szybkie uruchomienie
 
 1.  **Sklonuj repozytorium:**
