@@ -1,6 +1,6 @@
 -----
 
-#Raport OCS Inventory
+# Raport OCS Inventory
 
 Ten skrypt Python (`ocs_reporter.py`) **automatycznie monitoruje i raportuje zmiany w oprogramowaniu** wykrytym przez OCS Inventory NG. Wysyła e-maile o **nowo zainstalowanym oprogramowaniu** i wyświetla w konsoli informacje o usuniętych programach.
 
