@@ -1,3 +1,41 @@
-Do zainstalowania Postfix, mailutils
-Cloudflare -> 
-Oprogramowanie przestaje istnieć = zostaje usunięte z tabeli detected_software_hisotry
+### Konfiguracja wysyłki e-maili (SMTP)
+
+Skrypt używa standardowego protokołu SMTP do wysyłania e-maili. Poniżej znajdują się ważne uwagi dotyczące konfiguracji, szczególnie w kontekście Gmaila.
+
+**1. Korzystanie z Gmaila jako serwera SMTP:**
+
+Jeśli używasz konta Gmail do wysyłania raportów (zalecane dla prostoty, ale nie dla dużej skali):
+* **Włącz weryfikację dwuetapową (2FA) na swoim koncie Google.** Jest to wymagane, aby móc generować hasła aplikacji.
+* **Wygeneruj hasło aplikacji (App Password):**
+    * Przejdź do: Konto Google -> Bezpieczeństwo -> Jak logujesz się w Google -> Hasła do aplikacji.
+    * Wybierz "Poczta" jako aplikację i "Inne (niestandardowa nazwa)" jako urządzenie. Wpisz nazwę, np. "OCS Reporter".
+    * Wygenerowane hasło **(16 znaków)** wpisz w polu `smtp_password` w pliku `config.ini`. To hasło będzie używane przez skrypt zamiast Twojego zwykłego hasła do konta Google.
+    * **Nie używaj swojego głównego hasła do Gmaila w `config.ini`!** Jest to niezabezpieczone i Google może zablokować takie próby logowania.
+* Upewnij się, że `smtp_server` to `smtp.gmail.com` i `smtp_port` to `587` z `use_tls = True`.
+
+**2. Korzystanie z lokalnego serwera SMTP (np. Postfix na Linuxie):**
+
+Dla bardziej zaawansowanych scenariuszy lub środowisk produkcyjnych, zaleca się zainstalowanie i skonfigurowanie lokalnego serwera SMTP, takiego jak **Postfix**.
+* **Instalacja Postfiksa (Ubuntu/Debian):**
+    ```bash
+    sudo apt update
+    sudo apt install postfix
+    ```
+    Podczas instalacji zostaniesz poproszony o wybór konfiguracji. Dla prostego wysyłania e-maili z serwera, często wystarcza opcja "Internet Site" i podanie nazwy domeny.
+* **Konfiguracja Postfiksa do przekazywania poczty (relaying):**
+    Możesz skonfigurować Postfixa, aby przekazywał e-maile do zewnętrznego serwera SMTP (np. Gmaila lub serwera firmowego), co zwiększy niezawodność i bezpieczeństwo. Wymaga to edycji pliku `/etc/postfix/main.cf` i dodania m.in. `relayhost`, `smtp_sasl_auth_enable`, `smtp_sasl_password_maps` itd.
+    * **Ważne:** Jeśli skonfigurujesz lokalny Postfix tak, aby wysyłał e-maile bezpośrednio lub przez lokalny serwer bez autentykacji, możesz użyć w `config.ini`:
+        ```ini
+        smtp_server = localhost
+        smtp_port = 25
+        use_tls = False
+        smtp_username = 
+        smtp_password = 
+        ```
+        (puste pola dla nazwy użytkownika i hasła, jeśli lokalny serwer nie wymaga uwierzytelnienia dla poczty wychodzącej z localhosta).
+* **Sprawdzenie statusu Postfiksa:**
+    ```bash
+    systemctl status postfix
+    ```
+
+

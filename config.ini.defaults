@@ -1,0 +1,15 @@
+[database]
+host = localhost
+user = ocs_user
+password = ocs_PWD
+database = ocs_db
+
+[email]
+sender_email = twoj_email@example.com
+sender_name = OCS Inventory Reporter
+recipient_email = odbiorca_raportu@example.com
+smtp_server = smtp.gmail.com
+smtp_port = 587
+use_tls = True
+smtp_username = twoj_email@example.com
+smtp_password = TwojeHasloAplikacjiGmailLubZwykleHaslo
